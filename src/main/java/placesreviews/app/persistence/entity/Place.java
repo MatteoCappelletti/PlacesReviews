@@ -17,7 +17,7 @@ public class Place {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -56,12 +56,12 @@ public class Place {
         this.id = id;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
