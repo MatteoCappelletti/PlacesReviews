@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "category")
@@ -54,5 +55,24 @@ public class Category {
 
     public void setPlaces(List<Place> places) {
         this.places = places;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Category)) {
+            return false;
+        }
+        if (Objects.equals(this.id, ((Category) obj).id)) {
+            return true;
+        }
+        return Objects.equals(this.name, ((Category) obj).name);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
