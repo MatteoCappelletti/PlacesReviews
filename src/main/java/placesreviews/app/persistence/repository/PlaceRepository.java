@@ -13,14 +13,14 @@ public class PlaceRepository implements PanacheRepositoryBase<Place, Integer> {
     public List<Place> findByCity(String city) {
         String query = "SELECT p FROM Place p WHERE p.city = :city";
         return find(query, Map.of(
-                ":city", city
+                "city", city
         )).list();
     }
 
     public List<Place> findByUserId(int userId) {
         String query = "SELECT p FROM Place p WHERE p.user.id = :userId";
         return find(query, Map.of(
-                ":userId", userId
+                "userId", userId
         )).list();
     }
 
