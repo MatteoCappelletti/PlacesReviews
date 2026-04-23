@@ -1,11 +1,13 @@
 package placesreviews.app.persistence.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.enterprise.context.ApplicationScoped;
 import placesreviews.app.persistence.entity.Review;
 
 import java.util.List;
 import java.util.Map;
 
+@ApplicationScoped
 public class ReviewRepository implements PanacheRepositoryBase<Review, Integer> {
 
     public List<Review> findByPlaceId(int placeId) {
