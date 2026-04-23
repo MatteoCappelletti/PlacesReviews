@@ -21,7 +21,7 @@ public class Review {
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "approver_id")
     private User approver;
 
