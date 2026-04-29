@@ -9,9 +9,7 @@ import placesreviews.app.persistence.repository.PlaceRepository;
 import placesreviews.app.persistence.repository.UserRepository;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @ApplicationScoped
 public class PlaceService {
@@ -39,11 +37,17 @@ public class PlaceService {
         if (address == null || address.isBlank()) {
             return Result.error("Address is required");
         }
+        if (categories == null) {
+            categories = new HashSet<>();
+        }
 
-        User user = userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findByIdOptional(userId);
+        if (optionalUser.isEmpty()) {
+            return Result.error("User does not exists");
+        }
 
         Place place = new Place();
-        place.setUser(user);
+        place.setUser(optionalUser.get());
         place.setName(name);
         place.setDescription(description);
         place.setCity(city);
