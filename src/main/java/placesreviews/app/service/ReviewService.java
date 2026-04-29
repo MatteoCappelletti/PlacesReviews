@@ -68,6 +68,15 @@ public class ReviewService {
         return reviewRepository.findNotApproved();
     }
 
+    public Result deleteById(int reviewId) {
+        Optional<Review> optionalReview = reviewRepository.findByIdOptional(reviewId);
+        if (optionalReview.isEmpty()) {
+            return Result.error("Review does not exists");
+        }
+        reviewRepository.delete(optionalReview.get());
+        return Result.success();
+    }
+
     public record Result(boolean ok, String errorMessage) {
         public static Result success() {
             return new Result(true, null);
