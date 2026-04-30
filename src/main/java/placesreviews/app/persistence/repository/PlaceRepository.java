@@ -39,7 +39,7 @@ public class PlaceRepository implements PanacheRepositoryBase<Place, Integer> {
     }
 
     public List<Place> findByNameContainsAndCity(String name, String city) {
-        String query = "SELECT p FROM Place p WHERE p.name ilike :name and p.city ilike :city";
+        String query = "SELECT p FROM Place p WHERE p.name ilike :name or p.city ilike :city";
         return find(query, Map.of(
                 "name", ("%" + name + "%"),
                 "city", ("%" + city + "%")
