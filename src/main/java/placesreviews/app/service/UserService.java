@@ -58,7 +58,7 @@ public class UserService {
             return Result.error("Username must be at least 8 characters.");
         }
 
-        if (password == null || password.length() < 6) {
+        if (password == null || password.length() < 8) {
             return Result.error("Password must be at least 8 characters.");
         }
 
