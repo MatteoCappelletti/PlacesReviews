@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <main>
+        <form action="/home" method="get">
+            <label for="name">Nome</label>
+            <input type="text" name="name" id="name" placeholder="Nome">
+            <label for="city">Città</label>
+            <input type="text" name="city" id="city" placeholder="Città">
+            <button type="submit">Cerca</button>
+        </form>
+
+        {#if errorMessage}
+            <p id="error">{errorMessage}</p>
+        {/if}
+
+        {#for place in places}
+            <div class="place">
+                <h3 class="place-name">{place.name}</h3>
+                <p class="place-address-city">{place.address}, {place.city}</p>
+                <p class="place-description">{place.description}</p>
+                <div class="place-categories">
+                    {#for category in place.categories}
+                        <div class="place-category-container">
+                            <p class="place-category">{category}</p>
+                        </div>
+                    {/for}
+                </div>
+                <div class="place-images">
+                    {#for media in place.medias}
+                        <div class="place-image-container">
+                            <img class="place-image" src="{media.path}" alt="Img">
+                        </div>
+                    {/for}
+                </div>
+            </div>
+        {/for}
+
+    </main>
+</body>
+</html>
