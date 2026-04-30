@@ -5,6 +5,7 @@ import placesreviews.app.persistence.entity.Media;
 import placesreviews.app.persistence.entity.Place;
 import placesreviews.app.persistence.repository.MediaRepository;
 import placesreviews.app.persistence.repository.PlaceRepository;
+import placesreviews.app.service.model.Result;
 
 import java.time.OffsetDateTime;
 import java.util.List;

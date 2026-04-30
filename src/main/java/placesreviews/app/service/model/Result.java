@@ -1,4 +1,4 @@
-package placesreviews.app.service;
+package placesreviews.app.service.model;
 
 public record Result(boolean ok, String errorMessage) {
     public static Result success() {

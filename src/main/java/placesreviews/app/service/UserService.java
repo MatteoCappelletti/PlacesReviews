@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import placesreviews.app.persistence.entity.User;
 import placesreviews.app.persistence.repository.UserRepository;
+import placesreviews.app.service.model.Result;
 
 import java.time.OffsetDateTime;
 import java.util.List;

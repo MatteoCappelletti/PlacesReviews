@@ -8,6 +8,7 @@ import placesreviews.app.persistence.entity.Place;
 import placesreviews.app.persistence.entity.User;
 import placesreviews.app.persistence.repository.PlaceRepository;
 import placesreviews.app.persistence.repository.UserRepository;
+import placesreviews.app.service.model.Result;
 
 import java.time.OffsetDateTime;
 import java.util.*;
