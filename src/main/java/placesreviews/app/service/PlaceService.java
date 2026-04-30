@@ -89,4 +89,17 @@ public class PlaceService {
     public List<Place> findMostRecent(int quantity) {
         return placeRepository.findMostRecent(quantity);
     }
+
+    public List<Place> findByNameContainsAndCity(String name, String city) {
+        if ((name == null || name.isBlank()) && (city == null || city.isBlank())) {
+            return placeRepository.listAll();
+        }
+        if (name == null || name.isBlank()) {
+            name = "";
+        }
+        if (city == null || city.isBlank()) {
+            city = "";
+        }
+        return placeRepository.findByNameContainsAndCity(name, city);
+    }
 }
