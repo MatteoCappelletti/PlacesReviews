@@ -91,15 +91,24 @@ public class PlaceService {
     }
 
     public List<Place> findByNameContainsAndCity(String name, String city) {
-        if ((name == null || name.isBlank()) && (city == null || city.isBlank())) {
-            return placeRepository.listAll();
+        if (
+            !(name == null || name.isBlank())
+            && !(city == null || city.isBlank())
+        ) {
+            return placeRepository.findByNameContainsAndCity(name, city);
         }
-        if (name == null || name.isBlank()) {
-            name = "";
+        if (
+            (name == null || name.isBlank())
+            && !(city == null || city.isBlank())
+        ) {
+            return placeRepository.findByCity(city);
         }
-        if (city == null || city.isBlank()) {
-            city = "";
+        if (
+            !(name == null || name.isBlank())
+            && (city == null || city.isBlank())
+        ) {
+            return placeRepository.findByNameContains(name);
         }
-        return placeRepository.findByNameContainsAndCity(name, city);
+        return placeRepository.listAll();
     }
 }

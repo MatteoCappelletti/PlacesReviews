@@ -11,9 +11,9 @@ import java.util.Map;
 public class PlaceRepository implements PanacheRepositoryBase<Place, Integer> {
 
     public List<Place> findByCity(String city) {
-        String query = "SELECT p FROM Place p WHERE p.city = :city";
+        String query = "SELECT p FROM Place p WHERE p.city ilike :city";
         return find(query, Map.of(
-                "city", city
+                "city", ("%" + city + "%")
         )).list();
     }
 
@@ -39,13 +39,10 @@ public class PlaceRepository implements PanacheRepositoryBase<Place, Integer> {
     }
 
     public List<Place> findByNameContainsAndCity(String name, String city) {
-        String paramName = (name == null || name.isBlank()) ? "" : ("%" + name + "%");
-        String paramCity = (city == null || city.isBlank()) ? "" : ("%" + city + "%");
-
-        String query = "SELECT p FROM Place p WHERE p.name ilike :name or p.city ilike :city";
+        String query = "SELECT p FROM Place p WHERE p.name ilike :name and p.city ilike :city";
         return find(query, Map.of(
-                "name", paramName,
-                "city", paramCity
+                "name", ("%" + name + "%"),
+                "city", ("%" + city + "%")
         )).list();
     }
 }
