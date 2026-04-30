@@ -3,7 +3,9 @@ package placesreviews.app.persistence.entity;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,6 +49,9 @@ public class Place {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "place")
+    private List<Media> medias = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -126,5 +131,13 @@ public class Place {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public List<Media> getMedias() {
+        return medias;
+    }
+
+    public void setMedias(List<Media> medias) {
+        this.medias = medias;
     }
 }
