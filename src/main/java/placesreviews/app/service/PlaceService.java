@@ -3,6 +3,7 @@ package placesreviews.app.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import placesreviews.app.persistence.entity.Category;
+import placesreviews.app.persistence.entity.Media;
 import placesreviews.app.persistence.entity.Place;
 import placesreviews.app.persistence.entity.User;
 import placesreviews.app.persistence.repository.PlaceRepository;
@@ -24,7 +25,7 @@ public class PlaceService {
     }
 
     @Transactional
-    public Result insert(int userId, String name, String description, String city, String address, double latitude, double longitude, Set<Category> categories) {
+    public Result insert(int userId, String name, String description, String city, String address, double latitude, double longitude, Set<Category> categories, List<Media> media) {
         if (name == null || name.isBlank()) {
             return Result.error("Name is required");
         }
@@ -55,6 +56,7 @@ public class PlaceService {
         place.setLatitude(latitude);
         place.setLongitude(longitude);
         place.setCategories(categories);
+        place.setMedias(media);
         place.setCreatedAt(OffsetDateTime.now());
         placeRepository.persist(place);
 
