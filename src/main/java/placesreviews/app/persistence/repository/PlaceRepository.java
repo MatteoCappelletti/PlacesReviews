@@ -30,4 +30,11 @@ public class PlaceRepository implements PanacheRepositoryBase<Place, Integer> {
                 "name", ("%" + contained + "%")
         )).list();
     }
+
+    public List<Place> findMostRecent(int quantity) {
+        String query = "SELECT p FROM Place p ORDER BY p.createdAt DESC LIMIT :quantity";
+        return find(query, Map.of(
+                "quantity", quantity
+        )).list();
+    }
 }

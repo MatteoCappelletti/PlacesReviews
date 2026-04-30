@@ -85,4 +85,8 @@ public class PlaceService {
 
         return placeRepository.findByNameContains(name);
     }
+
+    public List<Place> findMostRecent(int quantity) {
+        return placeRepository.findMostRecent(quantity);
+    }
 }
