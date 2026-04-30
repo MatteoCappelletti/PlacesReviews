@@ -7,7 +7,7 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import placesreviews.app.service.Result;
+import placesreviews.app.service.model.Result;
 import placesreviews.app.service.UserService;
 
 import java.net.URI;
