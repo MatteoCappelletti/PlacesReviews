@@ -76,14 +76,4 @@ public class ReviewService {
         reviewRepository.delete(optionalReview.get());
         return Result.success();
     }
-
-    public record Result(boolean ok, String errorMessage) {
-        public static Result success() {
-            return new Result(true, null);
-        }
-
-        public static Result error(String message) {
-            return new Result(false, message);
-        }
-    }
 }
