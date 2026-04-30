@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+</head>
+<body>
+<main>
+    <form action="/j_security_check" method="post">
+        <label for="username">Username</label>
+        <input type="text" name="j_username" id="username" placeholder="Username" required>
+        <br>
+        <label for="password">Password</label>
+        <input type="password" name="j_password" id="password" placeholder="Password" required>
+        <br>
+        <button type="submit">Accedi</button>
+        <button type="reset">Cancella</button>
+    </form>
+    <br>
+    {#if errorMessage}
+        <p id="error">{errorMessage}</p>
+    {/if}
+</main>
+</body>
+</html>
