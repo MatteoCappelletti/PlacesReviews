@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+<main>
+    <form action="/register" method="post">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" placeholder="Username" required>
+        <br>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <br>
+        <label for="verified_password">Password</label>
+        <input type="password" name="verified_password" id="verified_password" placeholder="Verify password" required>
+        <br>
+        <button type="submit">Register</button>
+        <button type="reset">Reset</button>
+    </form>
+    <br>
+    {#if errorMessage}
+        <p id="error">{errorMessage}</p>
+    {/if}
+</main>
+</body>
+</html>
