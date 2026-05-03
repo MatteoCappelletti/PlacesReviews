@@ -50,7 +50,7 @@ public class Place {
     )
     private Set<Category> categories = new HashSet<>();
 
-    @OneToMany(mappedBy = "place")
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<Media> medias = new ArrayList<>();
 
     public int getId() {
