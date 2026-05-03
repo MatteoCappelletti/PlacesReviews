@@ -26,7 +26,17 @@ public class PlaceService {
     }
 
     @Transactional
-    public Result insert(int userId, String name, String description, String city, String address, double latitude, double longitude, Set<Category> categories, List<Media> media) {
+    public Result insert(
+            int userId,
+            String name,
+            String description,
+            String city,
+            String address,
+            double latitude,
+            double longitude,
+            Set<Category> categories,
+            List<String> mediaUrls
+    ) {
         if (name == null || name.isBlank()) {
             return Result.error("Name is required");
         }
@@ -49,6 +59,18 @@ public class PlaceService {
         }
 
         Place place = new Place();
+
+        List<Media> mediaList = new ArrayList<>();
+        for (String mediaUrl : mediaUrls) {
+            Media media = new Media();
+
+            media.setPath(mediaUrl);
+            media.setCreatedAt(OffsetDateTime.now());
+            media.setPlace(place);
+
+            mediaList.add(media);
+        }
+
         place.setUser(optionalUser.get());
         place.setName(name);
         place.setDescription(description);
@@ -57,7 +79,7 @@ public class PlaceService {
         place.setLatitude(latitude);
         place.setLongitude(longitude);
         place.setCategories(categories);
-        place.setMedias(media);
+        place.setMedias(mediaList);
         place.setCreatedAt(OffsetDateTime.now());
         placeRepository.persist(place);
 
