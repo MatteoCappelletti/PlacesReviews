@@ -19,25 +19,27 @@
         {/if}
 
         {#for place in places}
-            <div class="place">
-                <h3 class="place-name">{place.name}</h3>
-                <p class="place-address-city">{place.address}, {place.city}</p>
-                <p class="place-description">{place.description}</p>
-                <div class="place-categories">
-                    {#for category in place.categories}
-                        <div class="place-category-container">
-                            <p class="place-category">{category}</p>
-                        </div>
-                    {/for}
+            <a class="place-link" href="/place/{place.id}">
+                <div class="place">
+                    <h3 class="place-name">{place.name}</h3>
+                    <p class="place-address-city">{place.address}, {place.city}</p>
+                    <p class="place-description">{place.description}</p>
+                    <div class="place-categories">
+                        {#for category in place.categories}
+                            <div class="place-category-container">
+                                <p class="place-category">{category}</p>
+                            </div>
+                        {/for}
+                    </div>
+                    <div class="place-images">
+                        {#for media in place.medias}
+                            <div class="place-image-container">
+                                <img class="place-image" src="{media.path}" alt="Img">
+                            </div>
+                        {/for}
+                    </div>
                 </div>
-                <div class="place-images">
-                    {#for media in place.medias}
-                        <div class="place-image-container">
-                            <img class="place-image" src="{media.path}" alt="Img">
-                        </div>
-                    {/for}
-                </div>
-            </div>
+            </a>
         {/for}
 
     </main>
