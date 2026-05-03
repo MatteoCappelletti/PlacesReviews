@@ -14,6 +14,8 @@
             <button type="submit">Cerca</button>
         </form>
 
+        <a href="/place/add">Aggiungi locale</a>
+
         {#if errorMessage}
             <p id="error">{errorMessage}</p>
         {/if}
@@ -27,7 +29,7 @@
                     <div class="place-categories">
                         {#for category in place.categories}
                             <div class="place-category-container">
-                                <p class="place-category">{category}</p>
+                                <p class="place-category">{category.name}</p>
                             </div>
                         {/for}
                     </div>
