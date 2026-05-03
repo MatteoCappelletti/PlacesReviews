@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Place</title>
+</head>
+<body>
+<main>
+    <form action="/home" method="get">
+        <label for="name">Nome</label>
+        <input type="text" name="name" id="name" placeholder="Nome">
+        <label for="city">Città</label>
+        <input type="text" name="city" id="city" placeholder="Città">
+        <button type="submit">Cerca</button>
+    </form>
+
+    <a href="/home">Torna alla home</a>
+
+    {#if errorMessage}
+        <p id="error">{errorMessage}</p>
+    {/if}
+
+    <div id="form-container">
+        <form action="" method="post">
+            <label for="name">
+                Nome
+                <input type="text" name="name" id="name" required>
+            </label>
+            <br>
+
+            <label for="description">
+                Descrizione
+                <input type="text" name="description" id="description" required>
+            </label>
+            <br>
+
+            <label for="city">
+                Città
+                <input type="text" name="city" id="city" required>
+            </label>
+            <br>
+
+            <label for="address">
+                Indirizzo
+                <input type="text" name="address" id="address" required>
+            </label>
+            <br>
+
+            <label for="latitude">
+                Latitudine
+                <input type="number" name="latitude" id="latitude" required>
+            </label>
+            <br>
+
+            <label for="longitude">
+                Longitudine
+                <input type="number" name="longitude" id="longitude" required>
+            </label>
+            <br>
+
+            <label id="categories">
+                Categorie
+                {#for category in categories}
+                    <label for="categories-checkbox">
+                        <input type="checkbox" name="categories" value="{category.name}"> {category.name}
+                    </label>
+                {/for}
+            </label>
+            <br>
+
+            <label for="image-url">
+                Url dell'immagine
+                <input type="text" name="image-url" id="image-url">
+            </label>
+            <br>
+
+            <input type="submit" id="submit" value="Aggiungi">
+            <input type="reset" id="reset" value="Cancella">
+        </form>
+    </div>
+
+</main>
+</body>
+</html>
