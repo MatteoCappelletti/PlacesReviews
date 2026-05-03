@@ -86,6 +86,64 @@ public class PlaceService {
         return Result.success();
     }
 
+    @Transactional
+    public Result modify(
+            int placeIdToModify,
+            String name,
+            String description,
+            String city,
+            String address,
+            double latitude,
+            double longitude,
+            Set<Category> categories,
+            List<String> mediaUrls
+    ) {
+        if (name == null || name.isBlank()) {
+            return Result.error("Name is required");
+        }
+        if (description == null || description.isBlank()) {
+            return Result.error("Description is required");
+        }
+        if (city == null || city.isBlank()) {
+            return Result.error("City is required");
+        }
+        if (address == null || address.isBlank()) {
+            return Result.error("Address is required");
+        }
+        if (categories == null) {
+            categories = new HashSet<>();
+        }
+
+        Optional<Place> optionalPlace = placeRepository.findByIdOptional(placeIdToModify);
+        if (optionalPlace.isEmpty()) {
+            return Result.error("Place not found");
+        }
+
+        Place placeToModify = optionalPlace.get();
+
+        List<Media> mediaList = new ArrayList<>();
+        for (String mediaUrl : mediaUrls) {
+            Media media = new Media();
+
+            media.setPath(mediaUrl);
+            media.setCreatedAt(OffsetDateTime.now());
+            media.setPlace(placeToModify);
+
+            mediaList.add(media);
+        }
+
+        placeToModify.setName(name);
+        placeToModify.setDescription(description);
+        placeToModify.setCity(city);
+        placeToModify.setAddress(address);
+        placeToModify.setLatitude(latitude);
+        placeToModify.setLongitude(longitude);
+        placeToModify.setCategories(categories);
+        placeToModify.setMedias(mediaList);
+
+        return Result.success();
+    }
+
     public List<Place> findByCity(String city) {
         if (city == null || city.isBlank()) {
             return new ArrayList<>();

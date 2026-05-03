@@ -141,4 +141,108 @@ public class PlaceResource {
 
         return Response.seeOther(URI.create("/home")).build();
     }
+
+    @GET
+    @Path("/{id}/modify")
+    @Produces(MediaType.TEXT_HTML)
+    @RolesAllowed({"user", "moderator"})
+    public Response showModifyPage (
+            @Context SecurityContext securityContext,
+            @PathParam("id") int id
+    ) {
+        Optional<Place> optionalPlace = placeService.findById(id);
+
+        if (optionalPlace.isEmpty()) {
+            return Response.ok(modifyPlaceTemplate
+                    .data("place", null)
+                    .data("categories", null)
+                    .data("errorMessage", "No place found")
+            ).build();
+        }
+
+        Place place = optionalPlace.get();
+
+        User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
+
+        if (
+                !"moderator".equals(user.getRole())
+                && place.getUser().getId() != user.getId()
+        ) {
+            return Response.seeOther(URI.create("/home")).build();
+        }
+
+        List<Category> categories = categoryService.findAll();
+
+        return Response.ok(modifyPlaceTemplate
+                .data("place", place)
+                .data("categories", categories)
+                .data("errorMessage", null)
+        ).build();
+    }
+
+    @POST
+    @Path("/{id}/modify")
+    @RolesAllowed({"user", "moderator"})
+    public Response modifyPlace (
+            @Context SecurityContext securityContext,
+            @PathParam("id") int id,
+            @FormParam("name") String name,
+            @FormParam("description") String description,
+            @FormParam("city") String city,
+            @FormParam("address") String address,
+            @FormParam("latitude") double latitude,
+            @FormParam("longitude") double longitude,
+            @FormParam("categories") List<String> categories,
+            @FormParam("image-url") String imageUrl
+    ) {
+        Optional<Place> optionalPlace = placeService.findById(id);
+
+        if (optionalPlace.isEmpty()) {
+            return Response.ok(modifyPlaceTemplate
+                    .data("place", null)
+                    .data("categories", null)
+                    .data("errorMessage", "No place found")
+            ).build();
+        }
+
+        Place place = optionalPlace.get();
+
+        User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
+
+        if (
+                !"moderator".equals(user.getRole())
+                && place.getUser().getId() != user.getId()
+        ) {
+            return Response.seeOther(URI.create("/home")).build();
+        }
+
+        Set<Category> categorySet = categoryService.findByNamesList(categories);
+
+        List<String> mediaUrlList = new ArrayList<>();
+        mediaUrlList.add(imageUrl);
+
+        Result result = placeService.modify(
+                id,
+                name,
+                description,
+                city,
+                address,
+                latitude,
+                longitude,
+                categorySet,
+                mediaUrlList
+        );
+
+        if (!result.ok()) {
+            List<Category> allCategories = categoryService.findAll();
+
+            return Response.ok(modifyPlaceTemplate
+                    .data("place", place)
+                    .data("categories", allCategories)
+                    .data("errorMessage", result.errorMessage())
+            ).build();
+        }
+
+        return Response.seeOther(URI.create("/place/" + id)).build();
+    }
 }

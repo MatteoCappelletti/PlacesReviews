@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modify Place</title>
+</head>
+<body>
+<main>
+    <form action="/home" method="get">
+        <label for="name">Nome</label>
+        <input type="text" name="name" id="name" placeholder="Nome">
+        <label for="city">Città</label>
+        <input type="text" name="city" id="city" placeholder="Città">
+        <button type="submit">Cerca</button>
+    </form>
+
+    <a href="/home">Torna alla home</a>
+
+    {#if errorMessage}
+        <p id="error">{errorMessage}</p>
+    {/if}
+
+    <div id="form-container">
+        <form action="" method="post">
+            <label for="name">
+                Nome
+                <input type="text" name="name" id="name" value="{place.name}" required>
+            </label>
+            <br>
+
+            <label for="description">
+                Descrizione
+                <input type="text" name="description" id="description" value="{place.description}" required>
+            </label>
+            <br>
+
+            <label for="city">
+                Città
+                <input type="text" name="city" id="city" value="{place.city}" required>
+            </label>
+            <br>
+
+            <label for="address">
+                Indirizzo
+                <input type="text" name="address" id="address" value="{place.address}" required>
+            </label>
+            <br>
+
+            <label for="latitude">
+                Latitudine
+                <input type="number" name="latitude" id="latitude" value="{place.latitude}" required>
+            </label>
+            <br>
+
+            <label for="longitude">
+                Longitudine
+                <input type="number" name="longitude" id="longitude" value="{place.longitude}" required>
+            </label>
+            <br>
+
+            <label id="categories">
+                Categorie
+                {#for category in categories}
+                    <label for="categories-checkbox">
+                        <input type="checkbox" name="categories" {#for selectedCategory in place.categories} {#if category.name == selectedCategory.name} checked {/if} {/for}> {category.name}
+                    </label>
+                {/for}
+            </label>
+            <br>
+
+            <label for="image-url">
+                Url dell'immagine
+                {#for media in place.medias}
+                    <input type="text" name="image-url" id="image-url" value="{media.path}">
+                {/for}
+            </label>
+            <br>
+
+            <input type="submit" id="submit" value="Aggiungi">
+            <input type="reset" id="reset" value="Cancella">
+        </form>
+    </div>
+
+</main>
+</body>
+</html>
