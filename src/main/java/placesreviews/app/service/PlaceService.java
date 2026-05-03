@@ -112,4 +112,8 @@ public class PlaceService {
         }
         return placeRepository.listAll();
     }
+
+    public Optional<Place> findById(int id) {
+        return placeRepository.findByIdOptional(id);
+    }
 }
