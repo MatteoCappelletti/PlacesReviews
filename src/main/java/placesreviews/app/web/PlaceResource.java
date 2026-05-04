@@ -64,7 +64,8 @@ public class PlaceResource {
     @Produces(MediaType.TEXT_HTML)
     @PermitAll
     public Response showPage(
-            @PathParam("id") int id
+            @PathParam("id") int id,
+            @QueryParam("reviewErrorMessage") String reviewErrorMessage
     ) {
         Optional<Place> optionalPlace = placeService.findById(id);
 
@@ -73,6 +74,7 @@ public class PlaceResource {
                     .data("place", null)
                     .data("reviews", null)
                     .data("errorMessage", "No place found")
+                    .data("reviewErrorMessage", null)
             ).build();
         }
 
@@ -82,6 +84,7 @@ public class PlaceResource {
                 .data("place", optionalPlace.get())
                 .data("reviews", reviews)
                 .data("errorMessage", null)
+                .data("reviewErrorMessage", reviewErrorMessage)
         ).build();
     }
 
@@ -241,6 +244,32 @@ public class PlaceResource {
                     .data("categories", allCategories)
                     .data("errorMessage", result.errorMessage())
             ).build();
+        }
+
+        return Response.seeOther(URI.create("/place/" + id)).build();
+    }
+
+    @POST
+    @Path("/{id}")
+    @RolesAllowed("user")
+    public Response addReview(
+            @Context SecurityContext securityContext,
+            @PathParam("id") int id,
+            @FormParam("rating-select") int rating,
+            @FormParam("review-description") String description
+    ) {
+
+        User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
+
+        Result result = reviewService.insert(
+                user.getId(),
+                id,
+                rating,
+                description
+        );
+
+        if(!result.ok()) {
+            return Response.seeOther(URI.create("/place/" + id + "?reviewErrorMessage=" + result.errorMessage().replace(" ", "-") )).build();
         }
 
         return Response.seeOther(URI.create("/place/" + id)).build();

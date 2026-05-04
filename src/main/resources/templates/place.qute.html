@@ -35,7 +35,7 @@
             <div class="place-images">
                 {#for media in place.medias}
                     <div class="place-image-container">
-                        <img class="place-image" src="{media.path}" alt="Img">
+                        <img class="place-image" src="{media.path}" alt="{media.path}">
                     </div>
                 {/for}
             </div>
@@ -43,6 +43,35 @@
     {/if}
 
     <h4>Recensioni</h4>
+
+    <div id="add-review">
+        <form method="post">
+            <label for="rating-select">
+                <select id="rating-select" name="rating-select" required>
+                    <option class="rating-option" value="1">1</option>
+                    <option class="rating-option" value="2">2</option>
+                    <option class="rating-option" value="3">3</option>
+                    <option class="rating-option" value="4">4</option>
+                    <option class="rating-option" value="5">5</option>
+                </select>
+            </label>
+            <br>
+
+            <label for="review-description">
+                <textarea name="review-description" placeholder="Descrizione"></textarea>
+            </label>
+            <br>
+
+            <input type="submit" id="review-submit" value="Aggiungi">
+            <input type="reset" id="review-reset" value="Cancella">
+        </form>
+        <br>
+
+        {#if reviewErrorMessage}
+            <p id="review-error">{reviewErrorMessage}</p>
+        {/if}
+    </div>
+
     {#for review in reviews}
         <div class="review-container">
             <p class="review-rating">{review.rating}/5 {#if review.approver} ✅ {/if}</p>
