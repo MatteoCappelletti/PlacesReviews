@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Users</title>
+</head>
+<body>
+<main>
+    <table border="1">
+        <tr>
+            <th>username</th>
+            <th>role</th>
+            <th>created_at</th>
+            <th>actions</th>
+        </tr>
+        {#for user in users}
+            <tr>
+                <td>{user.username}</td>
+                <td>{user.role}</td>
+                <td>{user.createdAt}</td>
+                <td>
+                    {#if user.username != loggedUsername && user.role != "moderator"}
+                        <a href="/users/modify/{user.username}">Set as moderator</a>
+                    {/if}
+                </td>
+            </tr>
+        {/for}
+    </table>
+</main>
+</body>
+</html>

@@ -29,31 +29,6 @@ public class UserService {
     }
 
     @Transactional
-    public Result modify(String oldUsername, String usernameFromForm, String roleFromForm) {
-        if (oldUsername == null || oldUsername.isBlank()) {
-            return Result.error("Username is required");
-        }
-        if (usernameFromForm == null || usernameFromForm.isBlank()) {
-            return Result.error("Username from form is required");
-        }
-        if (!"admin".equalsIgnoreCase(roleFromForm) && !"user".equalsIgnoreCase(roleFromForm)) {
-            return Result.error("Role must be either user or admin");
-        }
-        if (!oldUsername.equals(usernameFromForm)) {
-            if (userRepository.existsByUsername(usernameFromForm)) {
-                return Result.error("Username already exists");
-            }
-        }
-
-        Optional<User> oldByUsername = userRepository.findByUsername(oldUsername);
-        User user = oldByUsername.get();
-        user.setUsername(usernameFromForm);
-        user.setRole(roleFromForm);
-
-        return Result.success();
-    }
-
-    @Transactional
     public Result insert(String username, String password, String verifiedPassword) {
         if (username == null || username.length() < 8) {
             return Result.error("Username must be at least 8 characters.");
@@ -85,6 +60,15 @@ public class UserService {
         u.setRole("user");
         u.setCreatedAt(OffsetDateTime.now());
         userRepository.persist(u);
+
+        return Result.success();
+    }
+
+    @Transactional
+    public Result setRoleToModeratorFromId(int id) {
+        User user = userRepository.findById(id);
+
+        user.setRole("moderator");
 
         return Result.success();
     }
