@@ -1,6 +1,7 @@
 package placesreviews.app.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import placesreviews.app.persistence.entity.Place;
 import placesreviews.app.persistence.entity.Review;
 import placesreviews.app.persistence.entity.User;
@@ -28,6 +29,7 @@ public class ReviewService {
         this.placeRepository = placeRepository;
     }
 
+    @Transactional
     public Result insert(int userId, int placeId, int rating, String description) {
         if (rating < 1 || rating > 5) {
             Result.error("Rating must be between 1 and 5");
@@ -69,6 +71,7 @@ public class ReviewService {
         return reviewRepository.findNotApproved();
     }
 
+    @Transactional
     public Result deleteById(int reviewId) {
         Optional<Review> optionalReview = reviewRepository.findByIdOptional(reviewId);
         if (optionalReview.isEmpty()) {
