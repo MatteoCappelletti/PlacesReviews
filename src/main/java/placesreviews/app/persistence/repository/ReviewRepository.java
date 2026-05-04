@@ -11,7 +11,7 @@ import java.util.Map;
 public class ReviewRepository implements PanacheRepositoryBase<Review, Integer> {
 
     public List<Review> findByPlaceId(int placeId) {
-        String query = "SELECT r FROM Review r WHERE r.place.id = :placeId";
+        String query = "SELECT r FROM Review r WHERE r.place.id = :placeId ORDER BY r.createdAt DESC";
         return find(query, Map.of(
                 "placeId", placeId
         )).list();
