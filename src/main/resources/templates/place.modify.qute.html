@@ -70,9 +70,15 @@
 
             <label for="image-url">
                 Url dell'immagine
-                {#for media in place.medias}
-                    <input type="text" name="image-url" id="image-url" value="{media.path}">
-                {/for}
+                {#if place.medias}
+                    {#for media in place.medias}
+                        <input type="text" name="image-url" id="image-url" value="{media.path}">
+                    {/for}
+                    {#else}
+                        <input type="text" name="image-url" id="image-url">
+                {/if}
+
+
             </label>
             <br>
 

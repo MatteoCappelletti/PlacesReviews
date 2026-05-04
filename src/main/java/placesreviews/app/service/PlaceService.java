@@ -6,6 +6,7 @@ import placesreviews.app.persistence.entity.Category;
 import placesreviews.app.persistence.entity.Media;
 import placesreviews.app.persistence.entity.Place;
 import placesreviews.app.persistence.entity.User;
+import placesreviews.app.persistence.repository.MediaRepository;
 import placesreviews.app.persistence.repository.PlaceRepository;
 import placesreviews.app.persistence.repository.UserRepository;
 import placesreviews.app.service.model.Result;
@@ -20,9 +21,12 @@ public class PlaceService {
 
     private final UserRepository userRepository;
 
-    public PlaceService(PlaceRepository placeRepository, UserRepository userRepository) {
+    private final MediaRepository mediaRepository;
+
+    public PlaceService(PlaceRepository placeRepository, UserRepository userRepository, MediaRepository mediaRepository) {
         this.placeRepository = placeRepository;
         this.userRepository = userRepository;
+        this.mediaRepository = mediaRepository;
     }
 
     @Transactional
@@ -121,8 +125,15 @@ public class PlaceService {
 
         Place placeToModify = optionalPlace.get();
 
+        List<Media> mediaListToDelete = mediaRepository.findByPlaceId(placeToModify.getId());
+        for (Media media : mediaListToDelete) {
+            mediaRepository.delete(media);
+        }
+
         List<Media> mediaList = new ArrayList<>();
         for (String mediaUrl : mediaUrls) {
+            if (mediaUrl == null || mediaUrl.isBlank()) { continue; }
+
             Media media = new Media();
 
             media.setPath(mediaUrl);
