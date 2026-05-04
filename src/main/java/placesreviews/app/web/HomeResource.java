@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.Response;
 import placesreviews.app.persistence.entity.Place;
 import placesreviews.app.service.PlaceService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/home")
@@ -39,6 +40,7 @@ public class HomeResource {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
+    @Path("/search")
     @PermitAll
     public Response search(
             @QueryParam("name") String name,
@@ -50,5 +52,21 @@ public class HomeResource {
             return Response.ok(homeTemplate.data("places", null).data("errorMessage", "No place found")).build();
         }
         return Response.ok(homeTemplate.data("places", places).data("errorMessage", null)).build();
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/coordinates")
+    @PermitAll
+    public Response searchByCoordinates(
+            @QueryParam("latitudesearch") double latitude ,
+            @QueryParam("longitudesearch") double longitude
+    ) {
+        List<Place> placesInArea = placeService.findInTwoKm(latitude, longitude);
+
+        if (placesInArea.isEmpty()) {
+            return Response.ok(homeTemplate.data("places", null).data("errorMessage", "No place found in your area (2 Km)")).build();
+        }
+        return Response.ok(homeTemplate.data("places", placesInArea).data("errorMessage", null)).build();
     }
 }

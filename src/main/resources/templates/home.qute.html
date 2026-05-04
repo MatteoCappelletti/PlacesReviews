@@ -6,12 +6,19 @@
 </head>
 <body>
     <main>
-        <form action="/home" method="get">
+        <form action="/home/search" method="get">
             <label for="name">Nome</label>
             <input type="text" name="name" id="name" placeholder="Nome">
             <label for="city">Città</label>
             <input type="text" name="city" id="city" placeholder="Città">
             <button type="submit">Cerca</button>
+        </form>
+        <form action="/home/coordinates" method="get" id="geo-form">
+            <input type="number" step="any" style="display: none" name="latitudesearch" id="latitudesearch" readonly required>
+            <input type="number" step="any" style="display: none" name="longitudesearch" id="longitudesearch" readonly required>
+
+            <button type="button" onclick="ottieniPosizione()">Trova tramite posizione</button>
+            <p id="output"></p>
         </form>
 
         <a href="/place/add">Aggiungi locale</a>
@@ -45,5 +52,41 @@
         {/for}
 
     </main>
+
+<script>
+    function ottieniPosizione() {
+        const display = document.getElementById("output");
+        const latitudine_input = document.getElementById("latitudesearch");
+        const longitude_input = document.getElementById("longitudesearch");
+
+        if (!navigator.geolocation) {
+            display.innerHTML = "La geolocalizzazione non è supportata dal tuo browser.";
+            return;
+        }
+
+        display.innerHTML = "Localizzazione in corso...";
+
+        navigator.geolocation.getCurrentPosition(successo, errore);
+
+        function successo(posizione) {
+            const lat = posizione.coords.latitude;
+            const lon = posizione.coords.longitude;
+
+            display.innerHTML = "Latitudine: " + lat.toFixed(5) + "<br> Longitudine: " + lon.toFixed(5);
+
+            console.log("Coordinate ottenute: Lat " + lat + ", Lon " + lon);
+
+            latitudine_input.value = lat;
+            longitude_input.value = lon;
+
+            document.getElementById("geo-form").submit();
+        }
+
+        function errore() {
+            display.innerHTML = "Impossibile recuperare la tua posizione (permesso negato o errore di rete).";
+        }
+    }
+</script>
+
 </body>
 </html>
