@@ -93,10 +93,12 @@ public class PlaceResource {
 
         List<Review> approvedReviews = reviewService.findByPlaceIdApproved(id);
         int averageRating = 0;
-        for (Review review : approvedReviews) {
-            averageRating += review.getRating();
+        if (!approvedReviews.isEmpty()) {
+            for (Review review : approvedReviews) {
+                averageRating += review.getRating();
+            }
+            averageRating /= approvedReviews.size();
         }
-        averageRating /= approvedReviews.size();
 
         return Response.ok(placeTemplate
                 .data("place", optionalPlace.get())
