@@ -28,4 +28,11 @@ public class ReviewRepository implements PanacheRepositoryBase<Review, Integer> 
         String query = "SELECT r FROM Review r WHERE r.approver is null";
         return find(query).list();
     }
+
+    public List<Review> findByPlaceIdApproved(int placeId) {
+        String query = "SELECT r FROM Review r WHERE r.place.id = :placeId AND r.approver is not null ORDER BY r.createdAt DESC";
+        return find(query, Map.of(
+                "placeId", placeId
+        )).list();
+    }
 }

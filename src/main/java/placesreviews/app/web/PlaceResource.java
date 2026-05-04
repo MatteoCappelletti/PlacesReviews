@@ -83,17 +83,28 @@ public class PlaceResource {
                     .data("reviews", null)
                     .data("errorMessage", "No place found")
                     .data("reviewErrorMessage", null)
+                    .data("averageRating", null)
+                    .data("reviewNumber", null)
                     .data("loggedUserRole", role)
             ).build();
         }
 
         List<Review> reviews = reviewService.findByPlaceId(id);
 
+        List<Review> approvedReviews = reviewService.findByPlaceIdApproved(id);
+        int averageRating = 0;
+        for (Review review : approvedReviews) {
+            averageRating += review.getRating();
+        }
+        averageRating /= approvedReviews.size();
+
         return Response.ok(placeTemplate
                 .data("place", optionalPlace.get())
                 .data("reviews", reviews)
                 .data("errorMessage", null)
                 .data("reviewErrorMessage", reviewErrorMessage)
+                .data("averageRating", averageRating)
+                .data("reviewNumber", approvedReviews.size())
                 .data("loggedUserRole", role)
         ).build();
     }

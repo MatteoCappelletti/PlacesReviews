@@ -63,6 +63,10 @@ public class ReviewService {
         return reviewRepository.findByPlaceId(placeId);
     }
 
+    public List<Review> findByPlaceIdApproved(int placeId) {
+        return reviewRepository.findByPlaceIdApproved(placeId);
+    }
+
     public List<Review> findByReviewerId(int reviewerId) {
         return reviewRepository.findByReviewerId(reviewerId);
     }
