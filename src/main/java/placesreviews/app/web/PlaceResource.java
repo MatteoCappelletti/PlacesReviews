@@ -64,10 +64,18 @@ public class PlaceResource {
     @Produces(MediaType.TEXT_HTML)
     @PermitAll
     public Response showPage(
+            @Context SecurityContext securityContext,
             @PathParam("id") int id,
             @QueryParam("reviewErrorMessage") String reviewErrorMessage
     ) {
         Optional<Place> optionalPlace = placeService.findById(id);
+
+        User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
+
+        String role = null;
+        if (user != null) {
+            role = user.getRole();
+        }
 
         if (optionalPlace.isEmpty()) {
             return Response.ok(placeTemplate
@@ -75,6 +83,7 @@ public class PlaceResource {
                     .data("reviews", null)
                     .data("errorMessage", "No place found")
                     .data("reviewErrorMessage", null)
+                    .data("loggedUserRole", role)
             ).build();
         }
 
@@ -85,6 +94,7 @@ public class PlaceResource {
                 .data("reviews", reviews)
                 .data("errorMessage", null)
                 .data("reviewErrorMessage", reviewErrorMessage)
+                .data("loggedUserRole", role)
         ).build();
     }
 
@@ -258,7 +268,6 @@ public class PlaceResource {
             @FormParam("rating-select") int rating,
             @FormParam("review-description") String description
     ) {
-
         User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
 
         Result result = reviewService.insert(
@@ -273,5 +282,32 @@ public class PlaceResource {
         }
 
         return Response.seeOther(URI.create("/place/" + id)).build();
+    }
+
+    @POST
+    @Path("/{placeId}/review/{reviewId}/approve")
+    @RolesAllowed("moderator")
+    public Response approveReview (
+            @Context SecurityContext securityContext,
+            @PathParam("reviewId") int reviewId,
+            @PathParam("placeId") int placeId
+    ) {
+        User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
+
+        Result result = reviewService.approve(reviewId, user.getId());
+
+        return Response.seeOther(URI.create("place/" + placeId)).build();
+    }
+
+    @POST
+    @Path("/{placeId}/review/{reviewId}/delete")
+    @RolesAllowed("moderator")
+    public Response deleteReview (
+            @PathParam("reviewId") int reviewId,
+            @PathParam("placeId") int placeId
+    ) {
+        Result result = reviewService.deleteById(reviewId);
+
+        return Response.seeOther(URI.create("place/" + placeId)).build();
     }
 }

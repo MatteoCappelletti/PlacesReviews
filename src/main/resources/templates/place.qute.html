@@ -73,12 +73,35 @@
     </div>
 
     {#for review in reviews}
-        <div class="review-container">
-            <p class="review-rating">{review.rating}/5 {#if review.approver} ✅ {/if}</p>
-            <p class="review-description">{review.description}</p>
-            <p class="review-user">{review.reviewer.username}</p>
-            <p class="review-created-at">{review.createdAt}</p>
-        </div>
+        {#if !review.approver && loggedUserRole == "moderator"}
+            <div class="review-container-not-approved">
+                <p class="review-rating">{review.rating}/5</p>
+                <p class="review-description">{review.description}</p>
+                <p class="review-user">{review.reviewer.username}</p>
+                <p class="review-created-at">{review.createdAt}</p>
+
+                <form action="/place/{place.id}/review/{review.id}/delete" method="post">
+                    <input type="submit" value="Delete">
+                </form>
+
+                <form action="/place/{place.id}/review/{review.id}/approve" method="post">
+                    <input type="submit" value="Approva">
+                </form>
+            </div>
+        {#else}
+            <div class="review-container-approved">
+                <p class="review-rating">{review.rating}/5  ✅</p>
+                <p class="review-description">{review.description}</p>
+                <p class="review-user">{review.reviewer.username}</p>
+                <p class="review-created-at">{review.createdAt}</p>
+
+                {#if loggedUserRole == "moderator"}
+                    <form action="/place/{place.id}/review/{review.id}/delete" method="post">
+                        <input type="submit" value="Delete">
+                    </form>
+                {/if}
+            </div>
+        {/if}
     {/for}
 
 </main>

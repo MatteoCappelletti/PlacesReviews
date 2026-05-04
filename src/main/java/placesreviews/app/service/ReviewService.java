@@ -80,4 +80,28 @@ public class ReviewService {
         reviewRepository.delete(optionalReview.get());
         return Result.success();
     }
+
+    @Transactional
+    public Result approve(int reviewId, int approverUserId) {
+        Optional<Review> optionalReview = reviewRepository.findByIdOptional(reviewId);
+        if (optionalReview.isEmpty()) {
+            return Result.error("Review not found");
+        }
+
+        Optional<User> optionalUser = userRepository.findByIdOptional(approverUserId);
+        if (optionalUser.isEmpty()) {
+            return Result.error("User not found");
+        }
+
+        User user = optionalUser.get();
+        if (!"moderator".equals(user.getRole())) {
+            return Result.error("Approver user must be moderator");
+        }
+
+        Review review = optionalReview.get();
+
+        review.setApprover(user);
+
+        return Result.success();
+    }
 }
