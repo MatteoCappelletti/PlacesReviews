@@ -8,10 +8,13 @@
 <main>
     <form action="/home" method="get">
         <label for="name">Nome</label>
-        <input type="text" name="name" id="name" placeholder="Nome">
+        <input type="text" name="name" id="name-search" placeholder="Nome">
         <label for="city">Città</label>
-        <input type="text" name="city" id="city" placeholder="Città">
+        <input type="text" name="city" id="city-search" placeholder="Città">
         <button type="submit">Cerca</button>
+    </form>
+    <form action="/home" method="">
+
     </form>
 
     <a href="/home">Torna alla home</a>
@@ -46,6 +49,9 @@
             </label>
             <br>
 
+            <button onclick="trovaCoordinate()">Calcola Coordinate</button>
+            <br>
+
             <label for="latitude">
                 Latitudine
                 <input type="number" name="latitude" id="latitude" required>
@@ -56,6 +62,9 @@
                 Longitudine
                 <input type="number" name="longitude" id="longitude" required>
             </label>
+            <br>
+
+            <div id="stato" class="status"></div>
             <br>
 
             <label id="categories">
@@ -80,5 +89,55 @@
     </div>
 
 </main>
+
+<script>
+    async function trovaCoordinate() {
+        const citta = document.getElementById('city').value;
+        console.log(citta)
+        const via = document.getElementById('address').value;
+        console.log(via)
+        const inputLat = document.getElementById('latitude');
+        const inputLng = document.getElementById('longitude');
+        const divStato = document.getElementById('stato');
+
+        // Reset campi e messaggi
+        inputLat.value = "";
+        inputLng.value = "";
+        divStato.innerText = "Ricerca in corso...";
+        divStato.style.color = "#666";
+
+        if (!citta || !via) {
+            divStato.innerText = "Inserisci sia città che indirizzo!";
+            divStato.style.color = "red";
+            return;
+        }
+
+        const query = encodeURIComponent(via + ", " + citta);
+        const url = "https://nominatim.openstreetmap.org/search?format=json&q=$" + query +"&limit=1";
+
+        try {
+            const response = await fetch(url, {
+                headers: { 'Accept-Language': 'it' }
+            });
+            const data = await response.json();
+
+            if (data && data.length > 0) {
+                // Compilazione automatica dei campi
+                inputLat.value = data[0].lat;
+                inputLng.value = data[0].lon;
+
+                divStato.innerText = "Coordinate caricate con successo!";
+                divStato.style.color = "green";
+            } else {
+                divStato.innerText = "Indirizzo non trovato.";
+                divStato.style.color = "orange";
+            }
+        } catch (error) {
+            divStato.innerText = "Errore di connessione.";
+            divStato.style.color = "red";
+        }
+    }
+</script>
+
 </body>
 </html>
