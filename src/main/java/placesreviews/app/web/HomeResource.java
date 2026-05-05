@@ -5,10 +5,14 @@ import io.quarkus.qute.Template;
 import jakarta.annotation.security.DenyAll;
 import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import placesreviews.app.persistence.entity.Place;
+import placesreviews.app.persistence.entity.User;
 import placesreviews.app.service.PlaceService;
+import placesreviews.app.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,21 +25,40 @@ public class HomeResource {
 
     private final PlaceService placeService;
 
-    public HomeResource(@Location("home.qute.html") Template homeTemplate, PlaceService placeService) {
+    private final UserService userService;
+
+    public HomeResource(@Location("home.qute.html") Template homeTemplate, PlaceService placeService, UserService userService) {
         this.homeTemplate = homeTemplate;
         this.placeService = placeService;
+        this.userService = userService;
     }
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     @PermitAll
-    public Response showPage() {
+    public Response showPage(
+            @Context SecurityContext securityContext
+    ) {
         List<Place> places = placeService.findMostRecent(10);
 
-        if (places.isEmpty()) {
-            return Response.ok(homeTemplate.data("places", null).data("errorMessage", "No place found")).build();
+        String role = null;
+        if (securityContext.getUserPrincipal() != null) {
+            User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
+            role = user.getRole();
         }
-        return Response.ok(homeTemplate.data("places", places).data("errorMessage", null)).build();
+
+        if (places.isEmpty()) {
+            return Response.ok(homeTemplate
+                    .data("places", null)
+                    .data("errorMessage", "No place found")
+                    .data("role", role)
+            ).build();
+        }
+        return Response.ok(homeTemplate
+                .data("places", places)
+                .data("errorMessage", null)
+                .data("role", role)
+        ).build();
     }
 
     @GET
@@ -43,15 +66,30 @@ public class HomeResource {
     @Path("/search")
     @PermitAll
     public Response search(
+            @Context SecurityContext securityContext,
             @QueryParam("name") String name,
             @QueryParam("city") String city
     ) {
         List<Place> places = placeService.findByNameContainsAndCity(name, city);
 
-        if (places.isEmpty()) {
-            return Response.ok(homeTemplate.data("places", null).data("errorMessage", "No place found")).build();
+        String role = null;
+        if (securityContext.getUserPrincipal() != null) {
+            User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
+            role = user.getRole();
         }
-        return Response.ok(homeTemplate.data("places", places).data("errorMessage", null)).build();
+
+        if (places.isEmpty()) {
+            return Response.ok(homeTemplate
+                    .data("places", null)
+                    .data("errorMessage", "No place found")
+                    .data("role", role)
+            ).build();
+        }
+        return Response.ok(homeTemplate
+                .data("places", places)
+                .data("errorMessage", null)
+                .data("role", role)
+        ).build();
     }
 
     @GET
@@ -59,14 +97,29 @@ public class HomeResource {
     @Path("/coordinates")
     @PermitAll
     public Response searchByCoordinates(
+            @Context SecurityContext securityContext,
             @QueryParam("latitudesearch") double latitude ,
             @QueryParam("longitudesearch") double longitude
     ) {
         List<Place> placesInArea = placeService.findInTwoKm(latitude, longitude);
 
-        if (placesInArea.isEmpty()) {
-            return Response.ok(homeTemplate.data("places", null).data("errorMessage", "No place found in your area (2 Km)")).build();
+        String role = null;
+        if (securityContext.getUserPrincipal() != null) {
+            User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
+            role = user.getRole();
         }
-        return Response.ok(homeTemplate.data("places", placesInArea).data("errorMessage", null)).build();
+
+        if (placesInArea.isEmpty()) {
+            return Response.ok(homeTemplate
+                    .data("places", null)
+                    .data("errorMessage", "No place found in your area (2 Km)")
+                    .data("role", role)
+            ).build();
+        }
+        return Response.ok(homeTemplate
+                .data("places", placesInArea)
+                .data("errorMessage", null)
+                .data("role", role)
+        ).build();
     }
 }

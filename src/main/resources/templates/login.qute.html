@@ -6,29 +6,29 @@
     <title>Login</title>
 </head>
 <body>
-    <nav id="navbar">
-        <a href="/home">HOME</a>
+<nav id="navbar">
+    <a href="/home">HOME</a>
 
-        <form action="/home/search" method="get">
-            <label for="name">Nome</label>
-            <input type="text" name="name" id="name" placeholder="Nome">
-            <label for="city">Città</label>
-            <input type="text" name="city" id="city" placeholder="Città">
-            <button type="submit">Cerca</button>
-        </form>
-        <form action="/home/coordinates" method="get" id="geo-form">
-            <input type="number" step="any" style="display: none" name="latitudesearch" id="latitudesearch" readonly required>
-            <input type="number" step="any" style="display: none" name="longitudesearch" id="longitudesearch" readonly required>
+    <form action="/home/search" method="get">
+        <label for="name">Nome</label>
+        <input type="text" name="name" id="name-search" placeholder="Nome">
+        <label for="city">Città</label>
+        <input type="text" name="city" id="city-search" placeholder="Città">
+        <button type="submit">Cerca</button>
+    </form>
+    <form action="/home/coordinates" method="get" id="geo-form">
+        <input type="number" step="any" style="display: none" name="latitudesearch" id="latitudesearch" readonly required>
+        <input type="number" step="any" style="display: none" name="longitudesearch" id="longitudesearch" readonly required>
 
-            <button type="button" onclick="ottieniPosizione()">Trova tramite posizione</button>
-            <p id="output"></p>
-        </form>
+        <button type="button" onclick="ottieniPosizione()">Trova tramite posizione</button>
+        <p id="output"></p>
+    </form>
 
-        <a href="/place/add">Aggiungi locale</a>
+    <a href="/place/add">Aggiungi locale</a>
 
-        <a href="/login">Login</a>
-        <a href="/logout">Logout</a>
-    </nav>
+    <a href="/login">Login</a>
+    <a href="/logout">Logout</a>
+</nav>
 
     <main>
         <form action="/j_security_check" method="post">
