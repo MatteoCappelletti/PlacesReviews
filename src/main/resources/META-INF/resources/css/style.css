@@ -1,0 +1,318 @@
+/* --- Reset e Variabili --- */
+:root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-body: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --navbar-bg: #0f172a;
+    --error: #ef4444;
+    --success: #22c55e;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* --- Navbar --- */
+#navbar {
+    background-color: var(--navbar-bg);
+    padding: 1rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+}
+
+#navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+#navbar a:hover {
+    color: var(--primary);
+}
+
+/* Form di ricerca nella Navbar */
+#navbar form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+#navbar label {
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+#navbar input[type="text"] {
+    padding: 0.4rem;
+    border-radius: 4px;
+    border: none;
+    font-size: 0.85rem;
+}
+
+#navbar button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* --- Layout Principale --- */
+main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* --- Lista Locali (Cards) --- */
+.place-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.place {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: var(--shadow);
+}
+
+.place:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.place-name {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.place-address-city {
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.place-categories {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+.place-category {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 0.2rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Immagini Locali */
+.place-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.place-image {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* --- Form (Add, Login, Register) --- */
+#form-container, form {
+    background: var(--bg-card);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Sovrascrivo per i form nella nav */
+#navbar form {
+    max-width: none;
+    box-shadow: none;
+    padding: 0.5rem;
+    border: none;
+    margin: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+input[type="submit"], button[type="submit"] {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+input[type="submit"]:hover, button[type="submit"]:hover {
+    background-color: var(--primary-hover);
+}
+
+input[type="reset"] {
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* --- Recensioni --- */
+.review-container-approved,
+.review-container-not-approved {
+    background: #fff;
+    padding: 1.5rem;
+    border-left: 5px solid var(--primary);
+    margin-top: 1rem;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.review-container-not-approved {
+    border-left-color: #f59e0b; /* Arancione per attesa approvazione */
+    background: #fffbeb;
+}
+
+.review-rating {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #f59e0b;
+}
+
+.review-user {
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.review-created-at {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* --- Tabelle (Lista Utenti) --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background-color: #f1f5f9;
+    font-weight: bold;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+/* --- Messaggi Errore --- */
+#error, #review-error {
+    background-color: #fef2f2;
+    color: var(--error);
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #fee2e2;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* --- Utilità --- */
+.status {
+    font-size: 0.9rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+#searching-coordinates {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    #navbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #navbar form {
+        flex-direction: column;
+    }
+}
