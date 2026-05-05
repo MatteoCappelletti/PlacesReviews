@@ -6,6 +6,30 @@
     <title>Register</title>
 </head>
 <body>
+<nav id="navbar">
+    <a href="/home">HOME</a>
+
+    <form action="/home/search" method="get">
+        <label for="name">Nome</label>
+        <input type="text" name="name" id="name" placeholder="Nome">
+        <label for="city">Città</label>
+        <input type="text" name="city" id="city" placeholder="Città">
+        <button type="submit">Cerca</button>
+    </form>
+    <form action="/home/coordinates" method="get" id="geo-form">
+        <input type="number" step="any" style="display: none" name="latitudesearch" id="latitudesearch" readonly required>
+        <input type="number" step="any" style="display: none" name="longitudesearch" id="longitudesearch" readonly required>
+
+        <button type="button" onclick="ottieniPosizione()">Trova tramite posizione</button>
+        <p id="output"></p>
+    </form>
+
+    <a href="/place/add">Aggiungi locale</a>
+
+    <a href="/login">Login</a>
+    <a href="/logout">Logout</a>
+</nav>
+
 <main>
     <form action="/register" method="post">
         <label for="username">Username</label>
@@ -17,13 +41,17 @@
         <label for="verified_password">Password</label>
         <input type="password" name="verified_password" id="verified_password" placeholder="Verify password" required>
         <br>
-        <button type="submit">Register</button>
-        <button type="reset">Reset</button>
+        <button type="submit">Registrati</button>
+        <button type="reset">Cancella</button>
     </form>
     <br>
     {#if errorMessage}
         <p id="error">{errorMessage}</p>
     {/if}
+
+    <p>Hai già un account? <a href="/login">Accedi</a></p>
 </main>
+
+<script src="js/coordinates.js"></script>
 </body>
 </html>
