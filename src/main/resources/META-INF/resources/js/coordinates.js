@@ -32,6 +32,7 @@ function ottieniPosizione() {
 }
 
 async function trovaCoordinate() {
+
     const citta = document.getElementById('city').value;
     console.log(citta)
     const via = document.getElementById('address').value;
@@ -76,4 +77,6 @@ async function trovaCoordinate() {
         divStato.innerText = "Errore di connessione.";
         divStato.style.color = "red";
     }
+
+    return false;
 }
