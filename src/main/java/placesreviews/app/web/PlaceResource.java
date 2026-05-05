@@ -70,10 +70,9 @@ public class PlaceResource {
     ) {
         Optional<Place> optionalPlace = placeService.findById(id);
 
-        User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
-
         String role = null;
-        if (user != null) {
+        if (securityContext.getUserPrincipal() != null) {
+            User user = userService.getByUsername(securityContext.getUserPrincipal().getName());
             role = user.getRole();
         }
 
