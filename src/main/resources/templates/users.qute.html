@@ -42,7 +42,7 @@
             <tr>
                 <td>{user.username}</td>
                 <td>{user.role}</td>
-                <td>{user.createdAt}</td>
+                <td>{user.createdAt.toLocalDate}</td>
                 <td>
                     {#if user.username != loggedUsername && user.role != "moderator"}
                         <a href="/users/modify/{user.username}">Set as moderator</a>
